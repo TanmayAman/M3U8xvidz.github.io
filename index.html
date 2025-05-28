@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crazy M3U8 Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-tv"></i> <span class="title">CRAZY M3U8 PLAYER</span>
+            <div class="visualizer"></div>
+        </div>
+        
+        <div class="input-section">
+            <div class="url-input-container">
+                <input type="text" class="url-input" id="stream-url" placeholder="Enter M3U8 stream URL...">
+                <div class="input-effects"></div>
+            </div>
+            <button class="load-btn" id="load-stream">
+                <i class="fas fa-bolt"></i> LOAD STREAM
+            </button>
+        </div>
+        
+        <div class="video-container" id="video-container">
+            <video id="video-player"></video>
+            
+            <div class="controls" id="controls">
+                <div class="controls-left">
+                    <button class="control-btn" id="play-pause-btn" title="Play/Pause">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    
+                    <button class="control-btn" id="stop-btn" title="Stop">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                    
+                    <button class="control-btn" id="rewind-btn" title="Rewind 10s">
+                        <i class="fas fa-backward"></i>
+                    </button>
+                    
+                    <button class="control-btn" id="forward-btn" title="Forward 10s">
+                        <i class="fas fa-forward"></i>
+                    </button>
+                    
+                    <div class="time-display" id="time-display">00:00 / 00:00</div>
+                </div>
+                
+                <div class="progress-container" id="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                    <div class="progress-preview" id="progress-preview">00:00</div>
+                </div>
+                
+                <div class="controls-right">
+                    <div class="volume-container">
+                        <button class="control-btn" id="mute-btn" title="Mute">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    
+                    <select class="speed-selector" id="speed-selector" title="Playback Speed">
+                        <option value="0.5">0.5x</option>
+                        <option value="0.75">0.75x</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2x</option>
+                    </select>
+                    
+                    <div class="quality-dropdown">
+                        <button class="quality-btn" id="quality-btn">
+                            <i class="fas fa-cog"></i> QUALITY
+                        </button>
+                        <div class="quality-menu" id="quality-menu">
+                            <div class="quality-option active" data-quality="auto">Auto</div>
+                            <div class="quality-option" data-quality="144">144p (Low)</div>
+                            <div class="quality-option" data-quality="240">240p (Medium)</div>
+                            <div class="quality-option" data-quality="360">360p (SD)</div>
+                            <div class="quality-option" data-quality="480">480p (HQ)</div>
+                            <div class="quality-option" data-quality="720">720p (HD)</div>
+                        </div>
+                    </div>
+                    <button class="control-btn fullscreen-btn" id="fullscreen-btn" title="Fullscreen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-message" id="status-message">Ready to play</div>
+            <div class="bitrate-display" id="bitrate-display">Bitrate: 0 kbps</div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <div class="particles" id="particles"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="script.js"></script>
+</body>
+</html>
