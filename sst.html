@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anyon_e</title>
+  <title>Anyon_e - Video Lectures</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     body {
@@ -95,27 +95,119 @@
   <div class="card-container" id="videoCards"></div>
 
   <script>
-    fetch("lectures.json")
-      .then(res => res.json())
-      .then(videos => {
-        const container = document.getElementById("videoCards");
-        videos.forEach(video => {
-          const link = `https://studystreamx.netlify.app/?url=${video.url}`;
-          const card = document.createElement("a");
-          card.href = link;
-          card.target = "_blank";
-          card.className = "card";
-          card.innerHTML = `
-            <i class="fas fa-video"></i>
-            <h3>${video.title}</h3>
-          `;
-          container.appendChild(card);
-        });
-      })
-      .catch(error => {
-        document.getElementById("videoCards").innerHTML = "<p style='text-align:center;'>Failed to load video data.</p>";
-        console.error("Error loading lectures.json:", error);
-      });
+    // 🔽🔽 PASTE YOUR JSON DATA HERE (replace the array below) 🔽🔽
+    const videos = [
+  {
+    "title": "The Rise of Nationalism L1",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4385660/174765773598337880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L2",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4386901/174774447851067880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L3",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4388156/174784213776117880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L4",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4389229/174791822718927880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L5",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4393945/174835110070857880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L6",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4395114/174844758699447880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L7",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4396261/174853315058577880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L8",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4406159/174955875139637880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L9",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4406366/174956988532027880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L10",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4407324/174964584764377880624/index_1.m3u8"
+  },
+  {
+    "title": "The Rise of Nationalism in Europe L11",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4407497/174965714629147880624/index_1.m3u8"
+  },
+  {
+    "title": "Doubt Solving Class",
+    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4408429/174974249991017880624/index_1.m3u8"
+  },
+  {
+    "title": "Forest And Wildlife Resources L1",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4411210/175007770550547125088/index_1.m3u8"
+  },
+  {
+    "title": "Forest And Wildlife Resources L2",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4412488/175016414550777125088/index_1.m3u8"
+  },
+  {
+    "title": "Forest And Wildlife Resources L3",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4413854/175026084256997125088/index_1.m3u8"
+  },
+  {
+    "title": "Sectors of the Indian Economy - 1",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4414989/175034785995657125088/index_1.m3u8"
+  },
+  {
+    "title": "Sectors of the Indian Economy L2",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4417609/175068233385897125088/index_1.m3u8"
+  },
+  {
+    "title": "Sectors of the Indian Economy L3",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4418570/175076895626987125088/index_1.m3u8"
+  },
+  {
+    "title": "Sectors of the Indian Economy L4",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4419824/175086546631887125088/index_1.m3u8"
+  },
+  {
+    "title": "Sectors of the Indian Economy L5",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4460006/175128817639377125088/index_1.m3u8"
+  },
+  {
+    "title": "Doubt  Sectors of Indian Economy class L6",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4474850/175171924899657125088/index_1.m3u8"
+  },
+  {
+    "title": "FEDERALISM- L1",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4475867/175189222398137125088/index_1.m3u8"
+  },
+  {
+    "title": "FEDERALISM- L2",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4476771/175197811164887125088/index_1.m3u8"
+  },
+  {
+    "title": "FEDERALISM- L3",
+    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4478170/175207529421867125088/index_1.m3u8"
+  }
+];
+
+    const container = document.getElementById("videoCards");
+    videos.forEach(video => {
+      const link = `https://studystreamx.netlify.app/?url=${video.url}`;
+      const card = document.createElement("a");
+      card.href = link;
+      card.target = "_blank";
+      card.className = "card";
+      card.innerHTML = `
+        <i class="fas fa-video"></i>
+        <h3>${video.title}</h3>
+      `;
+      container.appendChild(card);
+    });
   </script>
 </body>
 </html>
