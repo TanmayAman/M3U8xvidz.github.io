@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anyon_e - Video Lectures</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, #ff69b4, #8ec5fc);
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 5px #00000055;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header i {
+      margin-right: 12px;
+      transform: rotate(-15deg);
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 12px 25px rgba(255, 105, 180, 0.4);
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .card i {
+      font-size: 2rem;
+      color: #ff69b4;
+      margin-bottom: 10px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover i {
+      transform: scale(1.2) rotate(8deg);
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header><i class="fas fa-play-circle"></i>Anyon_e</header>
+  <div class="card-container" id="videoCards"></div>
+
+  <script>
+    fetch("lectures.json")
+      .then(res => res.json())
+      .then(videos => {
+        const container = document.getElementById("videoCards");
+        videos.forEach(video => {
+          const link = `https://studystreamx.netlify.app/?url=${video.url}`;
+          const card = document.createElement("a");
+          card.href = link;
+          card.target = "_blank";
+          card.className = "card";
+          card.innerHTML = `
+            <i class="fas fa-video"></i>
+            <h3>${video.title}</h3>
+          `;
+          container.appendChild(card);
+        });
+      })
+      .catch(error => {
+        document.getElementById("videoCards").innerHTML = "<p style='text-align:center;'>Failed to load video data.</p>";
+        console.error("Error loading lectures.json:", error);
+      });
+  </script>
+</body>
+</html>
