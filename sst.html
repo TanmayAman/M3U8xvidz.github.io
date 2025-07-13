@@ -2,42 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="image.png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Anyon_e</title>
-<link rel="icon" type="image/x-icon" href="ChatGPT Image Jul 12, 2025, 02_56_47 PM.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
+    /* Custom cursor + base */
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
-      min-height: 100vh;
+      cursor: url('cursor.png'), auto;
       overflow-x: hidden;
-      color: #333;
     }
 
+    /* HEADER with animation */
     header {
-      text-align: center;
-      padding: 2rem 1rem;
       background: linear-gradient(135deg, #ff69b4, #8ec5fc);
       color: white;
       font-size: 3rem;
       font-weight: bold;
+      text-align: center;
+      padding: 2rem 1rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
       letter-spacing: 2px;
-      text-shadow: 2px 2px 5px #00000055;
+      animation: pulse 3s infinite alternate;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
     }
 
-    header i {
-      margin-right: 12px;
-      transform: rotate(-15deg);
+    @keyframes pulse {
+      0% { text-shadow: 2px 2px 5px rgba(0,0,0,0.2); transform: scale(1); }
+      100% { text-shadow: 4px 4px 10px rgba(0,0,0,0.3); transform: scale(1.03); }
     }
 
-    .card-container {
+    .container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 20px;
       padding: 30px;
       max-width: 1200px;
@@ -45,58 +48,147 @@
     }
 
     .card {
-      background: white;
-      border-radius: 16px;
+      background: linear-gradient(145deg, #0a0a0a, #111111);
+      color: white;
+      border-radius: 20px;
       padding: 20px;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-align: center;
-      cursor: pointer;
       position: relative;
-      overflow: hidden;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
     .card:hover {
-      transform: translateY(-10px) scale(1.03);
-      box-shadow: 0 12px 25px rgba(255, 105, 180, 0.4);
-      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
     }
 
-    .card h3 {
+    .card-top {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .card-title {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .card-title h2 {
       margin: 0;
-      font-size: 1.1rem;
-      color: #333;
+      font-size: 1.2rem;
     }
 
-    .card i {
-      font-size: 2rem;
-      color: #ff69b4;
-      margin-bottom: 10px;
-      display: block;
-      transition: transform 0.3s ease;
+    .card-title p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      color: #ccc;
     }
 
-    .card:hover i {
-      transform: scale(1.2) rotate(8deg);
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    a {
-      text-decoration: none;
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid white;
+      object-fit: cover;
     }
 
-    @media (max-width: 600px) {
-      header {
-        font-size: 2rem;
+    .plus {
+      background: #3498db;
+      border-radius: 50%;
+      color: white;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    /* Popup modal */
+    .video-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .video-modal.active {
+      display: flex;
+    }
+
+    .video-container {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 20px;
+      position: relative;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+      border-radius: 12px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #ff69b4;
+      color: white;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      line-height: 32px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    @media(max-width: 600px){
+      .video-container iframe {
+        height: 250px;
       }
     }
   </style>
 </head>
 <body>
-  <header><i class="fas fa-play-circle"></i>Anyon_e</header>
-  <div class="card-container" id="videoCards"></div>
+
+  <header><i class="fas fa-bolt"></i>AnyOn_e</header>
+
+  <!-- Video Modal -->
+  <div class="video-modal" id="videoModal">
+    <div class="video-container">
+      <div class="close-btn" onclick="closeModal()">×</div>
+      <iframe id="videoFrame" src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <div class="container" id="videoCards"></div>
 
   <script>
-    // 🔽🔽 PASTE YOUR JSON DATA HERE (replace the array below) 🔽🔽
+    // ⬇ Paste JSON video data here
     const videos = [
   {
     "title": "The Rise of Nationalism L1",
@@ -193,26 +285,40 @@
   {
     "title": "FEDERALISM- L3",
     "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4478170/175207529421867125088/index_1.m3u8"
-  },
-{
-    "title": "FEDERALISM- L4",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4479240/175216182823787125088/index_1.m3u8"
   }
 ];
 
     const container = document.getElementById("videoCards");
+    const videoModal = document.getElementById("videoModal");
+    const videoFrame = document.getElementById("videoFrame");
+
     videos.forEach(video => {
-      const link = `https://studystreamx.netlify.app/?url=${video.url}`;
-      const card = document.createElement("a");
-      card.href = link;
-      card.target = "_blank";
+      const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <i class="fas fa-video"></i>
-        <h3>${video.title}</h3>
+        <div class="card-top"><i class="fas fa-ellipsis-v"></i></div>
+        <div class="card-title">
+          <h2>${video.title}</h2>
+          <p>Social Science</p>
+        </div>
+        <div class="card-footer">
+          <img src="https://randomuser.me/api/portraits/men/62.jpg" class="avatar" />
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" class="avatar" />
+          <div class="plus">+</div>
+        </div>
       `;
+      card.addEventListener("click", () => {
+        videoFrame.src = `https://studystreamx.netlify.app/?url=${video.url}`;
+        videoModal.classList.add("active");
+      });
       container.appendChild(card);
     });
+
+    function closeModal() {
+      videoModal.classList.remove("active");
+      videoFrame.src = "";
+    }
   </script>
+
 </body>
 </html>
