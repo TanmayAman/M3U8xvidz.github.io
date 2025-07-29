@@ -1,360 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-<link rel="icon" type="image/png" href="image.png">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/007AFF/FFFFFF?text=G" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anyon_e</title>
+    <!-- Font Awesome for icons (similar to SF Symbols) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for gradients, blur, and animations */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #e0e0e0; /* Light gray text for contrast */
+            /* Responsive background gradients */
+            background: linear-gradient(135deg, #0d0d0d, #050505); /* Default (mobile) */
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            body {
+                background: linear-gradient(135deg, #101010, #080808);
+            }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            body {
+                background: linear-gradient(135deg, #151515, #0a0a0a);
+            }
+        }
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anyon_e</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <style>
-    /* Custom cursor + base */
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
-      cursor: url('cursor.png'), auto;
-      overflow-x: hidden;
-    }
+        /* Header animation */
+        @keyframes headerPulse {
+            0% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.01); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.95; }
+        }
 
-    /* HEADER with animation */
-    header {
-      background: linear-gradient(135deg, #ff69b4, #8ec5fc);
-      color: white;
-      font-size: 3rem;
-      font-weight: bold;
-      text-align: center;
-      padding: 2rem 1rem;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-      letter-spacing: 2px;
-      animation: pulse 3s infinite alternate;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
+        .header-animation {
+            animation: headerPulse 4s infinite ease-in-out;
+        }
 
-    @keyframes pulse {
-      0% { text-shadow: 2px 2px 5px rgba(0,0,0,0.2); transform: scale(1); }
-      100% { text-shadow: 4px 4px 10px rgba(0,0,0,0.3); transform: scale(1.03); }
-    }
+        /* Card specific hover animation */
+        .card-hover-effect:hover {
+            transform: translateY(-6px) scale(1.02); /* More pronounced lift */
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.5); /* Stronger, diffused shadow */
+            background: linear-gradient(145deg, #202020, #151515); /* Slightly lighter on hover */
+        }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 30px;
-      max-width: 1200px;
-      margin: auto;
-    }
+        /* Modal specific blur and background for iOS-like translucency */
+        .video-modal-backdrop {
+            background: rgba(0, 0, 0, 0.75); /* Slightly more opaque */
+            backdrop-filter: blur(20px); /* Stronger, more elegant blur */
+        }
 
-    .card {
-      background: linear-gradient(145deg, #0a0a0a, #111111);
-      color: white;
-      border-radius: 20px;
-      padding: 20px;
-      position: relative;
-      height: 320px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
-
-    .card:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
-    }
-
-    .card-top {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .card-title {
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    .card-title h2 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .card-title p {
-      margin: 5px 0 0;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 2px solid white;
-      object-fit: cover;
-    }
-
-    .plus {
-      background: #3498db;
-      border-radius: 50%;
-      color: white;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 18px;
-    }
-
-    /* Popup modal */
-    .video-modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .video-modal.active {
-      display: flex;
-    }
-
-    .video-container {
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 20px;
-      padding: 20px;
-      position: relative;
-      width: 90%;
-      max-width: 800px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .video-container iframe {
-      width: 100%;
-      height: 450px;
-      border: none;
-      border-radius: 12px;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      background: #ff69b4;
-      color: white;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      text-align: center;
-      line-height: 32px;
-      font-size: 18px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    @media(max-width: 600px){
-      .video-container iframe {
-        height: 250px;
-      }
-    }
-  </style>
+        /* Custom scrollbar for a sleeker look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a4a4a;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6a6a6a;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Gemini-inspired dark tones
+                        darkBg: {
+                            DEFAULT: '#0d0d0d',
+                            light: '#1a1a1a',
+                            lighter: '#222222',
+                        },
+                        // iOS-inspired accent blue
+                        iosBlue: {
+                            DEFAULT: '#007AFF', /* Standard iOS blue */
+                            light: '#3399FF',
+                            dark: '#005AC8',
+                        },
+                        textLight: '#e0e0e0',
+                        textMuted: '#a0a0a0',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="bg-darkBg text-textLight min-h-screen antialiased">
 
-  <header><i class="fas fa-bolt"></i>AnyOn_e</header>
+    <!-- Header -->
+    <header class="bg-darkBg-light bg-opacity-80 backdrop-filter backdrop-blur-lg text-white text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center py-6 sm:py-8 lg:py-10 shadow-xl sticky top-0 z-20 header-animation rounded-b-3xl border-b border-gray-700">
+        <i class="fas fa-gem text-iosBlue mr-2 sm:mr-4 text-3xl sm:text-4xl lg:text-5xl"></i><span class="text-textLight">AnyOn_e</span>
+    </header>
 
-  <!-- Video Modal -->
-  <div class="video-modal" id="videoModal">
-    <div class="video-container">
-      <div class="close-btn" onclick="closeModal()">×</div>
-      <iframe id="videoFrame" src="" allowfullscreen></iframe>
+    <!-- Video Modal -->
+    <div id="videoModal" class="fixed inset-0 video-modal-backdrop hidden items-center justify-center z-50 transition-opacity duration-300 opacity-0">
+        <div id="videoContainer" class="bg-darkBg-lighter rounded-3xl p-6 sm:p-8 lg:p-10 relative w-11/12 max-w-lg sm:max-w-2xl lg:max-w-4xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 border border-gray-700">
+            <button onclick="closeModal()" class="absolute -top-4 -right-4 bg-iosBlue text-white rounded-full w-10 h-10 flex items-center justify-center text-2xl cursor-pointer shadow-lg hover:bg-iosBlue-dark transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-iosBlue focus:ring-opacity-75">
+                &times;
+            </button>
+            <iframe id="videoFrame" src="" allowfullscreen class="w-full h-64 sm:h-96 md:h-[450px] border-none rounded-2xl shadow-inner bg-black"></iframe>
+        </div>
     </div>
-  </div>
 
-  <!-- Cards -->
-  <div class="container" id="videoCards"></div>
+    <!-- Cards Container -->
+    <div id="videoCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8 p-6 sm:p-8 lg:p-10 max-w-7xl mx-auto">
+        <!-- Video cards will be dynamically inserted here -->
+    </div>
 
-  <script>
-    //  Paste JSON video data here
-    const videos = [
-  {
-    "title": "The Rise of Nationalism L1",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4385660/174765773598337880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L2",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4386901/174774447851067880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L3",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4388156/174784213776117880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L4",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4389229/174791822718927880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L5",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4393945/174835110070857880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L6",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4395114/174844758699447880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L7",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4396261/174853315058577880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L8",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4406159/174955875139637880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L9",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4406366/174956988532027880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L10",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4407324/174964584764377880624/index_1.m3u8"
-  },
-  {
-    "title": "The Rise of Nationalism in Europe L11",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4407497/174965714629147880624/index_1.m3u8"
-  },
-  {
-    "title": "Doubt Solving Class",
-    "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4408429/174974249991017880624/index_1.m3u8"
-  },
-  {
-    "title": "Forest And Wildlife Resources L1",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4411210/175007770550547125088/index_1.m3u8"
-  },
-  {
-    "title": "Forest And Wildlife Resources L2",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4412488/175016414550777125088/index_1.m3u8"
-  },
-  {
-    "title": "Forest And Wildlife Resources L3",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4413854/175026084256997125088/index_1.m3u8"
-  },
-  {
-    "title": "Sectors of the Indian Economy - 1",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4414989/175034785995657125088/index_1.m3u8"
-  },
-  {
-    "title": "Sectors of the Indian Economy L2",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4417609/175068233385897125088/index_1.m3u8"
-  },
-  {
-    "title": "Sectors of the Indian Economy L3",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4418570/175076895626987125088/index_1.m3u8"
-  },
-  {
-    "title": "Sectors of the Indian Economy L4",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4419824/175086546631887125088/index_1.m3u8"
-  },
-  {
-    "title": "Sectors of the Indian Economy L5",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4460006/175128817639377125088/index_1.m3u8"
-  },
-  {
-    "title": "Doubt  Sectors of Indian Economy class L6",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4474850/175171924899657125088/index_1.m3u8"
-  },
-  {
-    "title": "FEDERALISM- L1",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4475867/175189222398137125088/index_1.m3u8"
-  },
-  {
-    "title": "FEDERALISM- L2",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4476771/175197811164887125088/index_1.m3u8"
-  },
-  {
-    "title": "FEDERALISM- L3",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4478170/175207529421867125088/index_1.m3u8"
-  },
- {
-    "title": "FEDERALISM- L4",
-    "url": "https%3A%2F%2Fd274dp7v20n4nf.cloudfront.net%2Ffile_library%2Fvideos%2Fchannel_vod_non_drm_hls%2F4479240%2F175216182823787125088%2Findex_1.m3u8"
-  },
-      {
-    "title": "FEDERALISM- L5",
-    "url": "https%3A%2F%2Fd274dp7v20n4nf.cloudfront.net%2Ffile_library%2Fvideos%2Fchannel_vod_non_drm_hls%2F4481883%2F175249719015327125088%2Findex_1.m3u8"
-  },
-      {
-    "title": "Nationalism in India- L1",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4484117/175267984098967125088/index_1.m3u8"
-  },
-      {
-    "title": "Nationalism in India- L2",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4485142/175276595260217125088/index_1.m3u8"
-  },
-      {
-    "title": "Nationalism in India- L3",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4487942/175310190839187125088/index_1.m3u8"
-  },
-       {
-    "title": "Nationalism in India- L4",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4489690/175318859641387125088/index_1.m3u8"
-  },
-       {
-    "title": "Nationalism in India- L5",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4491671/175328504112427125088/index_1.m3u8"
-  },
-       {
-    "title": "Nationalism in India- L6",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4492899/175337180752677125088/index_1.m3u8"
-  },
-       {
-    "title": "Nationalism in India- L7",
-    "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4501558/175370673319757125088/index_1.m3u8"
-  },
-];
+    <script>
+        // JSON video data
+        const videos = [
+            { "title": "The Rise of Nationalism L1", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4385660/174765773598337880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L2", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4386901/174774447851067880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L3", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4388156/174784213776117880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L4", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4389229/174791822718927880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L5", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4393945/174835110070857880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L6", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4395114/174844758699447880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L7", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4396261/174853315058577880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L8", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4406159/174955875139637880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L9", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4406366/174956988532027880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L10", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4407324/174964584764377880624/index_1.m3u8" },
+            { "title": "The Rise of Nationalism in Europe L11", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4407497/174965714629147880624/index_1.m3u8" },
+            { "title": "Doubt Solving Class", "url": "https://d1qcficr3lu37x.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4408429/174974249991017880624/index_1.m3u8" },
+            { "title": "Forest And Wildlife Resources L1", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4411210/175007770550547125088/index_1.m3u8" },
+            { "title": "Forest And Wildlife Resources L2", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4412488/175016414550777125088/index_1.m3u8" },
+            { "title": "Forest And Wildlife Resources L3", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4413854/175026084256997125088/index_1.m3u8" },
+            { "title": "Sectors of the Indian Economy - 1", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4414989/175034785995657125088/index_1.m3u8" },
+            { "title": "Sectors of the Indian Economy L2", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4417609/175068233385897125088/index_1.m3u8" },
+            { "title": "Sectors of the Indian Economy L3", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4418570/175076895626987125088/index_1.m3u8" },
+            { "title": "Sectors of the Indian Economy L4", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4419824/175086546631887125088/index_1.m3u8" },
+            { "title": "Sectors of the Indian Economy L5", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4460006/175128817639377125088/index_1.m3u8" },
+            { "title": "Doubt Sectors of Indian Economy class L6", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4474850/175171924899657125088/index_1.m3u8" },
+            { "title": "FEDERALISM- L1", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4475867/175189222398137125088/index_1.m3u8" },
+            { "title": "FEDERALISM- L2", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4476771/175197811164887125088/index_1.m3u8" },
+            { "title": "FEDERALISM- L3", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4478170/175207529421867125088/index_1.m3u8" },
+            { "title": "FEDERALISM- L4", "url": "https%3A%2F%2Fd274dp7v20n4nf.cloudfront.net%2Ffile_library%2Fvideos%2Fchannel_vod_non_drm_hls%2F4479240%2F175216182823787125088%2Findex_1.m3u8" },
+            { "title": "FEDERALISM- L5", "url": "https%3A%2F%2Fd274dp7v20n4nf.cloudfront.net%2Ffile_library%2Fvideos%2Fchannel_vod_non_drm_hls%2F4481883%2F175249719015327125088%2Findex_1.m3u8" },
+            { "title": "Nationalism in India- L1", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4484117/175267984098967125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L2", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4485142/175276595260217125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L3", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4487942/175310190839187125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L4", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4489690/175318859641387125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L5", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4491671/175328504112427125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L6", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4492899/175337180752677125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L7", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4501558/175370673319757125088/index_1.m3u8" },
+        ];
 
-    const container = document.getElementById("videoCards");
-    const videoModal = document.getElementById("videoModal");
-    const videoFrame = document.getElementById("videoFrame");
+        const container = document.getElementById("videoCards");
+        const videoModal = document.getElementById("videoModal");
+        const videoFrame = document.getElementById("videoFrame");
+        const videoContainer = document.getElementById("videoContainer");
 
-    videos.forEach(video => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <div class="card-top"><i class="fas fa-ellipsis-v"></i></div>
-        <div class="card-title">
-          <h2>${video.title}</h2>
-          <p>Social Science</p>
-        </div>
-        <div class="card-footer">
-          <img src="https://randomuser.me/api/portraits/men/62.jpg" class="avatar" />
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" class="avatar" />
-          <div class="plus">+</div>
-        </div>
-      `;
-      card.addEventListener("click", () => {
-        videoFrame.src = `https://studystreamx.netlify.app/?url=${video.url}`;
-        videoModal.classList.add("active");
-      });
-      container.appendChild(card);
-    });
+        // Function to create and append video cards
+        videos.forEach(video => {
+            const card = document.createElement("div");
+            card.className = "card bg-darkBg-light text-textLight rounded-3xl p-6 relative h-80 flex flex-col justify-between shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer card-hover-effect border border-gray-800";
+            card.innerHTML = `
+                <div class="card-title text-center mt-10">
+                    <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold mb-1 text-iosBlue">${video.title}</h2>
+                    <p class="text-xs sm:text-sm text-textMuted">Social Science</p>
+                </div>
+                <div class="card-footer text-center text-sm sm:text-base text-textMuted">
+                    <i class="fas fa-play-circle text-iosBlue mr-2"></i> Click to watch
+                </div>
+            `;
+            card.addEventListener("click", () => {
+                const decodedUrl = decodeURIComponent(video.url);
+                videoFrame.src = `https://studystreamx.netlify.app/?url=${decodedUrl}`;
+                videoModal.classList.remove("hidden");
+                videoModal.classList.add("flex", "opacity-100");
+                videoContainer.classList.remove("scale-95", "opacity-0");
+                videoContainer.classList.add("scale-100", "opacity-100");
+            });
+            container.appendChild(card);
+        });
 
-    function closeModal() {
-      videoModal.classList.remove("active");
-      videoFrame.src = "";
-    }
-  </script>
+        // Function to close the video modal
+        function closeModal() {
+            videoModal.classList.remove("opacity-100");
+            videoModal.classList.add("opacity-0");
+            videoContainer.classList.remove("scale-100", "opacity-100");
+            videoContainer.classList.add("scale-95", "opacity-0");
+            setTimeout(() => {
+                videoModal.classList.add("hidden");
+                videoFrame.src = ""; // Stop the video
+            }, 300); // Wait for transition to complete
+        }
+    </script>
 
 </body>
 </html>
