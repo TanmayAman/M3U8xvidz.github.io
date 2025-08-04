@@ -2,70 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="https://placehold.co/32x32/007AFF/FFFFFF?text=G" />
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/6699FF/FFFFFF?text=T" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anyon_e</title>
-    <!-- Font Awesome for icons (similar to SF Symbols) -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles for gradients, blur, and animations */
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #e0e0e0; /* Light gray text for contrast */
-            /* Responsive background gradients */
-            background: linear-gradient(135deg, #0d0d0d, #050505); /* Default (mobile) */
-        }
-        @media (min-width: 640px) { /* sm breakpoint */
-            body {
-                background: linear-gradient(135deg, #101010, #080808);
-            }
-        }
-        @media (min-width: 1024px) { /* lg breakpoint */
-            body {
-                background: linear-gradient(135deg, #151515, #0a0a0a);
-            }
+        /* Base styles with CSS variables for dynamic theming */
+        :root {
+            --bg-color: #f0f0f5;
+            --header-color: #e7e0ec;
+            --text-color: #1c1b1f;
+            --text-muted: #72777a;
+            --accent-color: #6699ff;
+            --card-color: #e7e0ec;
+            --card-shadow: rgba(0, 0, 0, 0.1);
+            --menu-bg: rgba(231, 224, 236, 0.7); /* For glassmorphism */
         }
 
-        /* Header animation */
+        /* Sunshine Burst Theme */
+        body.sunshine-burst {
+            --bg-color: #fef3e0;
+            --header-color: #f7d9a1;
+            --text-color: #4a2c14;
+            --text-muted: #7c5c44;
+            --accent-color: #f9a826;
+            --card-color: #fcf0e3;
+            --card-shadow: rgba(249, 168, 38, 0.2);
+            --menu-bg: rgba(247, 217, 161, 0.7);
+        }
+
+        /* Cyber Tides Theme */
+        body.cyber-tides {
+            --bg-color: #0d1a26;
+            --header-color: #1b2e40;
+            --text-color: #e0f2ff;
+            --text-muted: #a0c2d6;
+            --accent-color: #00bcd4;
+            --card-color: #1b2e40;
+            --card-shadow: rgba(0, 188, 212, 0.2);
+            --menu-bg: rgba(27, 46, 64, 0.7);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden; /* Fix for horizontal scrollbar */
+        }
+
+        /* Header animation is now subtle */
         @keyframes headerPulse {
-            0% { transform: scale(1); opacity: 0.95; }
-            50% { transform: scale(1.01); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.95; }
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.005); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .header-animation {
-            animation: headerPulse 4s infinite ease-in-out;
+            animation: headerPulse 3s infinite ease-in-out;
         }
 
-        /* Card specific hover animation */
+        /* Polished Android-style card effect */
+        .card-hover-effect {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 10px var(--card-shadow);
+            background: var(--card-color);
+            color: var(--text-color);
+        }
         .card-hover-effect:hover {
-            transform: translateY(-6px) scale(1.02); /* More pronounced lift */
-            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.5); /* Stronger, diffused shadow */
-            background: linear-gradient(145deg, #202020, #151515); /* Slightly lighter on hover */
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 8px 20px var(--card-shadow);
         }
-
-        /* Modal specific blur and background for iOS-like translucency */
-        .video-modal-backdrop {
-            background: rgba(0, 0, 0, 0.75); /* Slightly more opaque */
-            backdrop-filter: blur(20px); /* Stronger, more elegant blur */
-        }
-
+        
         /* Custom scrollbar for a sleeker look */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #1a1a1a;
+            background: var(--header-color);
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
-            background: #4a4a4a;
+            background: var(--text-muted);
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #6a6a6a;
+            background: var(--text-color);
+        }
+
+        /* Typing effect for the search bar placeholder */
+        .typing-effect::after {
+            content: '|';
+            color: var(--text-muted);
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes blink-caret {
+            from, to { color: transparent }
+            50% { color: var(--text-muted); }
+        }
+
+        /* Off-canvas menu styles */
+        .off-canvas-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            background-color: var(--menu-bg);
+        }
+        .off-canvas-menu.active {
+            transform: translateX(0);
+        }
+        .backdrop-blur-lg {
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Toast notification styles */
+        #toast-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            pointer-events: none;
+            background: var(--text-color);
+            color: var(--header-color);
+            padding: 12px 24px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 1rem;
+            z-index: 1000;
+        }
+
+        #toast-notification.show {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+            pointer-events: auto;
         }
     </style>
     <script>
@@ -76,46 +150,104 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        // Gemini-inspired dark tones
-                        darkBg: {
-                            DEFAULT: '#0d0d0d',
-                            light: '#1a1a1a',
-                            lighter: '#222222',
-                        },
-                        // iOS-inspired accent blue
-                        iosBlue: {
-                            DEFAULT: '#007AFF', /* Standard iOS blue */
-                            light: '#3399FF',
-                            dark: '#005AC8',
-                        },
-                        textLight: '#e0e0e0',
-                        textMuted: '#a0a0a0',
+                        // Using CSS variables for dynamic theming
+                        primary: 'var(--accent-color)',
+                        secondary: 'var(--text-muted)',
+                        surface: 'var(--bg-color)',
+                        'surface-variant': 'var(--header-color)',
+                        onSurface: 'var(--text-color)',
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-darkBg text-textLight min-h-screen antialiased">
+<body class="bg-surface text-onSurface min-h-screen antialiased">
 
-    <!-- Header -->
-    <header class="bg-darkBg-light bg-opacity-80 backdrop-filter backdrop-blur-lg text-white text-4xl sm:text-5xl lg:text-6xl font-extrabold text-center py-6 sm:py-8 lg:py-10 shadow-xl sticky top-0 z-20 header-animation rounded-b-3xl border-b border-gray-700">
-        <i class="fas fa-gem text-iosBlue mr-2 sm:mr-4 text-3xl sm:text-4xl lg:text-5xl"></i><span class="text-textLight">AnyOn_e</span>
-    </header>
+    <!-- Off-canvas menu -->
+    <div id="menu" class="off-canvas-menu fixed inset-y-0 left-0 z-50 w-64 p-6 shadow-2xl flex flex-col justify-between backdrop-blur-lg">
+        <!-- Menu content -->
+        <div>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Menu</h3>
+                <button onclick="toggleMenu()" class="text-xl text-onSurface hover:text-primary transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Internet Status -->
+            <div class="bg-surface p-4 rounded-xl shadow-inner mb-6">
+                <p class="font-semibold text-sm">Internet Status:</p>
+                <p id="status" class="text-lg font-bold"></p>
+            </div>
 
-    <!-- Video Modal -->
-    <div id="videoModal" class="fixed inset-0 video-modal-backdrop hidden items-center justify-center z-50 transition-opacity duration-300 opacity-0">
-        <div id="videoContainer" class="bg-darkBg-lighter rounded-3xl p-6 sm:p-8 lg:p-10 relative w-11/12 max-w-lg sm:max-w-2xl lg:max-w-4xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 border border-gray-700">
-            <button onclick="closeModal()" class="absolute -top-4 -right-4 bg-iosBlue text-white rounded-full w-10 h-10 flex items-center justify-center text-2xl cursor-pointer shadow-lg hover:bg-iosBlue-dark transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-iosBlue focus:ring-opacity-75">
-                &times;
-            </button>
-            <iframe id="videoFrame" src="" allowfullscreen class="w-full h-64 sm:h-96 md:h-[450px] border-none rounded-2xl shadow-inner bg-black"></iframe>
+            <!-- Theme Switcher -->
+            <div class="space-y-4">
+                <h4 class="font-semibold text-lg">Themes</h4>
+                <button onclick="setTheme('android-12')" class="w-full text-left p-4 rounded-xl shadow-md transition-all duration-300 transform hover:scale-105" style="background-color: #e7e0ec; color: #1c1b1f;">
+                    Android 12
+                </button>
+                <button onclick="setTheme('sunshine-burst')" class="w-full text-left p-4 rounded-xl shadow-md transition-all duration-300 transform hover:scale-105" style="background-color: #f7d9a1; color: #4a2c14;">
+                    Sunshine Burst
+                </button>
+                <button onclick="setTheme('cyber-tides')" class="w-full text-left p-4 rounded-xl shadow-md transition-all duration-300 transform hover:scale-105" style="background-color: #1b2e40; color: #e0f2ff;">
+                    Cyber Tides
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Cards Container -->
-    <div id="videoCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8 p-6 sm:p-8 lg:p-10 max-w-7xl mx-auto">
-        <!-- Video cards will be dynamically inserted here -->
+    <!-- Main content area -->
+    <div id="main-content" class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-surface-variant bg-opacity-80 backdrop-filter backdrop-blur-lg text-onSurface font-extrabold text-center py-6 sm:py-8 lg:py-10 shadow-xl sticky top-0 z-20 header-animation rounded-b-[40px] border-b-2 border-surface flex items-center justify-between px-6 sm:px-8 lg:px-12">
+            <!-- Hamburger menu button -->
+            <button onclick="toggleMenu()" class="text-onSurface text-2xl lg:text-3xl hover:text-primary transition-colors">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- App title -->
+            <div class="flex-grow flex justify-center items-center">
+                <i class="fas fa-gem text-primary mr-2 sm:mr-4 text-3xl sm:text-4xl lg:text-5xl"></i>
+                <span class="text-onSurface text-2xl sm:text-3xl lg:text-4xl font-extrabold">AnyOn_e</span>
+            </div>
+            
+            <!-- Search Box with Typing Effect -->
+            <div class="relative flex-grow-0 hidden sm:block w-full max-w-sm ml-auto">
+                <input 
+                    id="searchInput" 
+                    type="text" 
+                    class="w-full bg-surface py-2 px-6 pl-10 text-onSurface rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 transition-shadow duration-300 placeholder-onSurface/70 text-base"
+                    placeholder=""
+                />
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-base"></i>
+            </div>
+
+            <!-- Spacer for alignment -->
+            <div class="w-8 lg:w-12"></div>
+        </header>
+
+        <!-- Search box for mobile -->
+        <div class="flex justify-center p-6 sm:p-8 sm:hidden">
+            <div class="relative w-full">
+                <input 
+                    id="searchInputMobile" 
+                    type="text" 
+                    class="w-full bg-surface-variant text-onSurface rounded-full py-4 px-6 pl-12 text-lg focus:outline-none focus:ring-4 focus:ring-primary/50 transition-shadow duration-300 placeholder-onSurface/70"
+                    placeholder=""
+                />
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-secondary text-base"></i>
+            </div>
+        </div>
+
+        <!-- Cards Container -->
+        <div id="videoCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8 p-6 sm:p-8 lg:p-10 max-w-7xl mx-auto">
+            <!-- Video cards will be dynamically inserted here -->
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="hidden">
+        <p id="toast-message"></p>
     </div>
 
     <script>
@@ -157,46 +289,166 @@
         ];
 
         const container = document.getElementById("videoCards");
-        const videoModal = document.getElementById("videoModal");
-        const videoFrame = document.getElementById("videoFrame");
-        const videoContainer = document.getElementById("videoContainer");
+        const searchInput = document.getElementById("searchInput");
+        const searchInputMobile = document.getElementById("searchInputMobile");
+        const menu = document.getElementById("menu");
+        const toast = document.getElementById("toast-notification");
+        const toastMessage = document.getElementById("toast-message");
+        
+        const placeholderPhrases = ["Search for a lecture...", "Type a lecture name...", "Find your lesson..."];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        // Function to show toast notification
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.remove("hidden");
+            setTimeout(() => {
+                toast.classList.add("show");
+            }, 10); // Small delay for CSS transition
+            
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => {
+                    toast.classList.add("hidden");
+                }, 300); // Wait for transition to finish
+            }, 3000);
+        }
+
+        // Function to set the theme
+        function setTheme(themeName) {
+            document.body.className = themeName;
+            localStorage.setItem('theme', themeName);
+        }
+
+        // Apply saved theme on page load
+        const savedTheme = localStorage.getItem('theme') || 'android-12';
+        setTheme(savedTheme);
+
+        // Function to toggle the menu
+        function toggleMenu() {
+            menu.classList.toggle('active');
+        }
 
         // Function to create and append video cards
-        videos.forEach(video => {
-            const card = document.createElement("div");
-            card.className = "card bg-darkBg-light text-textLight rounded-3xl p-6 relative h-80 flex flex-col justify-between shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer card-hover-effect border border-gray-800";
-            card.innerHTML = `
-                <div class="card-title text-center mt-10">
-                    <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold mb-1 text-iosBlue">${video.title}</h2>
-                    <p class="text-xs sm:text-sm text-textMuted">Social Science</p>
-                </div>
-                <div class="card-footer text-center text-sm sm:text-base text-textMuted">
-                    <i class="fas fa-play-circle text-iosBlue mr-2"></i> Click to watch
-                </div>
-            `;
-            card.addEventListener("click", () => {
-                const decodedUrl = decodeURIComponent(video.url);
-                videoFrame.src = `https://studystreamx.netlify.app/?url=${decodedUrl}`;
-                videoModal.classList.remove("hidden");
-                videoModal.classList.add("flex", "opacity-100");
-                videoContainer.classList.remove("scale-95", "opacity-0");
-                videoContainer.classList.add("scale-100", "opacity-100");
+        const renderVideos = (videoList) => {
+            container.innerHTML = ""; // Clear existing cards
+            if (videoList.length === 0) {
+                container.innerHTML = `<p class="col-span-full text-center text-secondary text-xl p-8">No lectures found.</p>`;
+                return;
+            }
+            videoList.forEach(video => {
+                const card = document.createElement("div");
+                card.className = "card bg-surface-variant rounded-[30px] p-6 relative flex flex-col justify-between card-hover-effect cursor-pointer h-64";
+                
+                card.innerHTML = `
+                    <button class="absolute top-4 right-4 text-secondary hover:text-primary transition-colors z-10" onclick="shareLecture(event, '${video.title}', '${video.url}')">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                    <div class="card-title text-center" onclick="openVideo('${video.url}')">
+                        <h2 class="text-xl sm:text-2xl font-bold mb-1 text-primary">${video.title}</h2>
+                        <p class="text-sm text-secondary">Social Science</p>
+                    </div>
+                    <div class="card-footer text-center text-base text-secondary mt-auto" onclick="openVideo('${video.url}')">
+                        <i class="fas fa-play-circle text-primary mr-2 text-xl"></i> Click to watch
+                    </div>
+                `;
+                
+                container.appendChild(card);
             });
-            container.appendChild(card);
-        });
+        };
 
-        // Function to close the video modal
-        function closeModal() {
-            videoModal.classList.remove("opacity-100");
-            videoModal.classList.add("opacity-0");
-            videoContainer.classList.remove("scale-100", "opacity-100");
-            videoContainer.classList.add("scale-95", "opacity-0");
-            setTimeout(() => {
-                videoModal.classList.add("hidden");
-                videoFrame.src = ""; // Stop the video
-            }, 300); // Wait for transition to complete
+        // Function to open video in new tab
+        function openVideo(url) {
+            const decodedUrl = decodeURIComponent(url);
+            window.open(`https://studystreamx.netlify.app/?url=${decodedUrl}`, '_blank');
         }
-    </script>
 
+        // Function to share lecture
+        function shareLecture(event, title, url) {
+            event.stopPropagation(); // Prevent the card from being clicked
+            const decodedUrl = decodeURIComponent(url);
+            const shareUrl = `https://studystreamx.netlify.app/?url=${decodedUrl}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: `Check out this lecture: ${title}`,
+                    url: shareUrl,
+                }).then(() => {
+                    showToast("Share dialog opened.");
+                }).catch((error) => {
+                    console.error('Error sharing:', error);
+                });
+            } else {
+                // Fallback for browsers that don't support the Web Share API
+                // Create a temporary input element to copy the text
+                const tempInput = document.createElement('input');
+                tempInput.value = shareUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showToast("Link copied to clipboard!");
+            }
+        }
+
+        // Initial render of all videos
+        renderVideos(videos);
+
+        // Search functionality
+        const handleSearch = (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredVideos = videos.filter(video => 
+                video.title.toLowerCase().includes(searchTerm)
+            );
+            renderVideos(filteredVideos);
+        };
+        searchInput.addEventListener("input", handleSearch);
+        searchInputMobile.addEventListener("input", handleSearch);
+        
+        // Typing effect for the placeholder
+        const typeEffect = () => {
+            const currentPhrase = placeholderPhrases[phraseIndex];
+            const currentPlaceholder = isDeleting ? currentPhrase.substring(0, charIndex--) : currentPhrase.substring(0, charIndex++);
+            
+            searchInput.placeholder = currentPlaceholder;
+            searchInputMobile.placeholder = currentPlaceholder;
+
+            // Check if phrase is fully typed or deleted
+            if (!isDeleting && charIndex > currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, 1500); // Pause before deleting
+            } else if (isDeleting && charIndex < 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % placeholderPhrases.length;
+                setTimeout(typeEffect, 500); // Pause before typing new phrase
+            } else {
+                setTimeout(typeEffect, isDeleting ? 75 : 150);
+            }
+        };
+
+        // Check for internet status on window load and periodically
+        const checkInternetStatus = () => {
+            const statusElement = document.getElementById("status");
+            if (navigator.onLine) {
+                statusElement.textContent = "Online";
+                statusElement.style.color = "green";
+            } else {
+                statusElement.textContent = "Offline";
+                statusElement.style.color = "red";
+            }
+        };
+
+        // Start the typing effect on window load and check internet status
+        window.onload = () => {
+            typeEffect();
+            checkInternetStatus();
+            
+            // Re-check internet status periodically
+            setInterval(checkInternetStatus, 5000); // Check every 5 seconds
+        };
+    </script>
 </body>
 </html>
