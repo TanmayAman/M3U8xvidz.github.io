@@ -71,7 +71,9 @@
             box-shadow: 0 4px 10px var(--card-shadow);
             background: var(--card-color);
             color: var(--text-color);
+            /* Ensure text is readable over the video */
         }
+
         .card-hover-effect:hover {
             transform: translateY(-4px) scale(1.01);
             box-shadow: 0 8px 20px var(--card-shadow);
@@ -139,6 +141,23 @@
         #toast-notification.show {
             transform: translateX(-50%) scale(1);
             opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Custom styles for the video background */
+        .card-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the video covers the entire card */
+            border-radius: 30px;
+            opacity: 0.7; /* Make the video a bit transparent */
+        }
+        .card-content {
+            position: relative;
+            z-index: 1;
             pointer-events: auto;
         }
     </style>
@@ -286,8 +305,8 @@
             { "title": "Nationalism in India- L5", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4491671/175328504112427125088/index_1.m3u8" },
             { "title": "Nationalism in India- L6", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4492899/175337180752677125088/index_1.m3u8" },
             { "title": "Nationalism in India- L7", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4501558/175370673319757125088/index_1.m3u8" },
-              { "title": "Nationalism in India- L8", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4503179/175379293685847125088/index_1.m3u8" },
-        { "title": "Nationalism in India- L9", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4504558/175388963241567125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L8", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4503179/175379293685847125088/index_1.m3u8" },
+            { "title": "Nationalism in India- L9", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4504558/175388963241567125088/index_1.m3u8" },
             { "title": "Nationalism in India- L10", "url": "https://d274dp7v20n4nf.cloudfront.net/file_library/videos/channel_vod_non_drm_hls/4505744/175397751675797125088/index_1.m3u8" },
             { "title": "Water Resources- L1", "url": "https%3A%2F%2Fd274dp7v20n4nf.cloudfront.net%2Ffile_library%2Fvideos%2Fchannel_vod_non_drm_hls%2F4514431%2F175449470435227125088%2Findex_1.m3u8" },
             
@@ -348,15 +367,18 @@
                 card.className = "card bg-surface-variant rounded-[30px] p-6 relative flex flex-col justify-between card-hover-effect cursor-pointer h-64";
                 
                 card.innerHTML = `
-                    <button class="absolute top-4 right-4 text-secondary hover:text-primary transition-colors z-10" onclick="shareLecture(event, '${video.title}', '${video.url}')">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                    <div class="card-title text-center" onclick="openVideo('${video.url}')">
-                        <h2 class="text-xl sm:text-2xl font-bold mb-1 text-primary">${video.title}</h2>
-                        <p class="text-sm text-secondary">Social Science</p>
-                    </div>
-                    <div class="card-footer text-center text-base text-secondary mt-auto" onclick="openVideo('${video.url}')">
-                        <i class="fas fa-play-circle text-primary mr-2 text-xl"></i> Click to watch
+                    <video class="card-video-bg" src="https://cdn.midjourney.com/video/d8c73efe-c27d-4933-b574-9a72aef0018b/0.mp4" autoplay loop muted onerror="this.parentElement.classList.remove('card-with-video-bg')"></video>
+                    <div class="card-content flex flex-col justify-between h-full relative z-10" onclick="openVideo('${video.url}')">
+                        <button class="absolute top-0 right-0 text-secondary hover:text-primary transition-colors z-20" onclick="shareLecture(event, '${video.title}', '${video.url}')">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <div class="card-title text-center text-onSurface">
+                            <h2 class="text-xl sm:text-2xl font-bold mb-1">${video.title}</h2>
+                            <p class="text-sm text-secondary">Social Science</p>
+                        </div>
+                        <div class="card-footer text-center text-base text-secondary mt-auto">
+                            <i class="fas fa-play-circle text-primary mr-2 text-xl"></i> Click to watch
+                        </div>
                     </div>
                 `;
                 
@@ -457,5 +479,3 @@
     </script>
 </body>
 </html>
-
-
